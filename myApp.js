@@ -1,5 +1,11 @@
-require('dotenv').config();
+const { Mongoose } = require('mongoose');
 
+require('dotenv').config();
+let mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology:true})
+  .then(() => console.log("MongoDB connected."))
+  .catch(e => console.log(e))
 
 let Person;
 
