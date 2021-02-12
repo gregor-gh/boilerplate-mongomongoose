@@ -1,4 +1,4 @@
-//const { Mongoose } = require('mongoose');
+const { Mongoose } = require('mongoose');
 
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -20,7 +20,9 @@ db.once("open", () => {
 });
 */
 
-const personSchema = new mongoose.Schema({
+const Schema = mongoose.Schema
+
+const personSchema = new Schema({
     name: {type: String, required: true},
     age: Number,
     favouriteFoods: [String]
@@ -28,16 +30,17 @@ const personSchema = new mongoose.Schema({
 
 let Person = mongoose.model("Person", personSchema);
 
-/*
-{
-  name: "Gregor",
-  age: 28,
-  favouriteFoods: ["Pizza","Chicken Nuggets","Ice Cream"]
-}
-*/
-
 const createAndSavePerson = (done) => {
-  done(null /*, data*/);
+  const gregor = new Person({
+    name: "Gregor",
+    age: 28,
+    favouriteFoods: ["Pizza","Chicken Nuggets","Ice Cream"]
+  });
+
+  gregor.save((err,data) => {
+    if(err) return done(err);
+    done(null,data)
+  });
 };
 
 const createManyPeople = (arrayOfPeople, done) => {
