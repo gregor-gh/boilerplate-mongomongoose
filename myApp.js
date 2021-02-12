@@ -7,12 +7,13 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
   .then(() => {
     console.log("MongoDB connected.")
 
+  
     const Schema = mongoose.Schema
 
     const personSchema = new Schema({
         name: {type: String, required: true},
         age: Number,
-        favouriteFoods: {type: [String], required: false}
+        favoriteFoods: {type: [String], required: false}
       });
     
     let Person = mongoose.model("Person", personSchema);
@@ -94,7 +95,6 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
     exports.removeById = removeById;
     exports.removeManyPeople = removeManyPeople;
     exports.queryChain = queryChain;
-
   })
   .catch(e => console.log(e));
 
