@@ -52,32 +52,28 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
 */
   const createManyPeople = (arrayOfPeople, done) => {
     Person.create(arrayOfPeople, (err,data) => {
-      if(err)
-        console.log(err);
+      if(err) return console.log(err);
       done(null , data);
     });
   };
 
   const findPeopleByName = (personName, done) => {
     Person.find({name: personName},(err,data) => {
-      if(err)
-        console.log(err);
+      if(err) return console.log(err);
       done(null, data);
     });
   };
 
   const findOneByFood = (food, done) => {
     Person.findOne({favoriteFoods: food},(err,data) => {
-      if(err)
-        console.log(err);
+      if(err) return console.log(err);
       done(null, data);
     });
   };
     
     const findPersonById = (personId, done) => {
       Person.findById(personId,(err,data)=>{
-        if(err)
-          console.log(err);
+        if(err) return console.log(err);
         done(null,data);
       });
     };
@@ -85,8 +81,7 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
     const findEditThenSave = (personId, done) => {
       const foodToAdd = "hamburger";
       Person.findById(personId,(err,person) => {
-        if(err)
-          console.log(err);
+        if(err) return console.log(err);
           person.favoriteFoods.push(foodToAdd)
           person.save((err,data) => {
             if(err) return console.log(err);
@@ -97,8 +92,14 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
     
     const findAndUpdate = (personName, done) => {
       const ageToSet = 20;
-    
-      done(null /*, data*/);
+      Person.findOneAndUpdate(
+        { name : personName },
+        { age : ageToSet },
+        { new : true },
+        (err,data) => {
+        if(err) return console.log(err);
+        done(null , data);
+      });
     };
     
     const removeById = (personId, done) => {
