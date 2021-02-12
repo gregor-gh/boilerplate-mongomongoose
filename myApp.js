@@ -84,8 +84,15 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
     
     const findEditThenSave = (personId, done) => {
       const foodToAdd = "hamburger";
-    
-      done(null /*, data*/);
+      Person.findById(personId,(err,person) => {
+        if(err)
+          console.log(err);
+          person.favoriteFoods.push(foodToAdd)
+          person.save((err,data) => {
+            if(err) return console.log(err);
+            done(null,data)
+          });
+      });
     };
     
     const findAndUpdate = (personName, done) => {
