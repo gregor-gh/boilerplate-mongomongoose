@@ -6,18 +6,19 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology:true})
   .then(() => {
     console.log("MongoDB connected.")
-
+  })
+  .catch(e => console.log(e));
   
     const Schema = mongoose.Schema
 
     const personSchema = new Schema({
-        name: {type: String, required: true},
-        age: Number,
-        favoriteFoods: {type: [String], required: false}
-      });
+      name: { type: String, required: true },
+      age: Number,
+      favoriteFoods: [String]
+    });
     
-    let Person = mongoose.model("Person", personSchema);
-    
+  const Person = mongoose.model("Person", personSchema);
+
     const createAndSavePerson = (done) => {
       const gregor = new Person({
         name: "Gregor",
@@ -26,13 +27,11 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
       });
     
       gregor.save((err,data) => {
-        if(err) return done(err);
+        if(err) 
+          console.log(err);
         done(null,data)
       });
     };
-
-
-
 
     const createManyPeople = (arrayOfPeople, done) => {
       done(null /*, data*/);
@@ -95,8 +94,7 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
     exports.removeById = removeById;
     exports.removeManyPeople = removeManyPeople;
     exports.queryChain = queryChain;
-  })
-  .catch(e => console.log(e));
+
 
 /*
 const db = mongoose.connection;
