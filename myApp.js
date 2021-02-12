@@ -9,56 +9,54 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
   })
   .catch(e => console.log(e));
   
-    const Schema = mongoose.Schema
+  const Schema = mongoose.Schema
 
-    const personSchema = new Schema({
-      name: { type: String, required: true },
-      age: Number,
-      favoriteFoods: [String]
-    });
+  const personSchema = new Schema({
+    name: { type: String, required: true },
+    age: Number,
+    favoriteFoods: [String]
+  });
     
   const Person = mongoose.model("Person", personSchema);
 
-    const createAndSavePerson = (done) => {
-      const gregor = new Person({
-        name: "Gregor",
-        age: 28,
-        favoriteFoods: ["Pizza","Chicken Nuggets","Ice Cream"]
-      });
-    
-      gregor.save((err,data) => {
-        if(err) 
-          console.log(err);
-        done(null,data)
-      });
-    };
+  const createAndSavePerson = (done) => {
+    const gregor = new Person({
+      name: "Gregor",
+      age: 28,
+      favoriteFoods: ["Pizza","Chicken Nuggets","Ice Cream"]
+    });
+  
+    gregor.save((err,data) => {
+      if(err) return console.log(err);
+      done(null,data)
+    });
+  };
 
-    const createManyPeople = (arrayOfPeople, done) => {
-      arrayOfPeople = mongoose.Model.create([
-        {
-          name: "Olivia",
-          age: 26,
-          favoriteFoods: ["Cheese","Wine","Chocolate"]
-        },
-        {
-          name: "Louise",
-          age:26,
-          favoriteFoods: ["Chocolate","Choccies","Mayonaise"]
-        },
-        {
-          name:"Gavin",
-          age:26,
-          favoriteFoods: ["Chicken","Burgers","Kebab"]
-        }
-      ]);
+  const arrayOfPeople = [
+    {
+      name: "Olivia",
+      age: 26,
+      favoriteFoods: ["Cheese","Wine","Chocolate"]
+    },
+    {
+      name: "Louise",
+      age:26,
+      favoriteFoods: ["Chocolate","Choccies","Mayonaise"]
+    },
+    {
+      name:"Gavin",
+      age:26,
+      favoriteFoods: ["Chicken","Burgers","Kebab"]
+    }
+  ];
 
-      arrayOfPeople.save((err,data) => {
-        if(err)
-          console.log(err);
+  const createManyPeople = (arrayOfPeople, done) => {
+    Person.create(arrayOfPeople, (err,data) => {
+      if(err)
+        console.log(err);
       done(null , data);
-    })
-    };
-    
+    });
+  };
     const findPeopleByName = (personName, done) => {
       done(null /*, data*/);
     };
