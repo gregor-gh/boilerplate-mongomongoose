@@ -34,7 +34,29 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
     };
 
     const createManyPeople = (arrayOfPeople, done) => {
-      done(null /*, data*/);
+      arrayOfPeople = mongoose.Model.create([
+        {
+          name: "Olivia",
+          age: 26,
+          favoriteFoods: ["Cheese","Wine","Chocolate"]
+        },
+        {
+          name: "Louise",
+          age:26,
+          favoriteFoods: ["Chocolate","Choccies","Mayonaise"]
+        },
+        {
+          name:"Gavin",
+          age:26,
+          favoriteFoods: ["Chicken","Burgers","Kebab"]
+        }
+      ]);
+
+      arrayOfPeople.save((err,data) => {
+        if(err)
+          console.log(err);
+      done(null , data);
+    })
     };
     
     const findPeopleByName = (personName, done) => {
