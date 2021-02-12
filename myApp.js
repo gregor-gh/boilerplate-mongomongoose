@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true, useUnifiedTopology
       const gregor = new Person({
         name: "Gregor",
         age: 28,
-        favouriteFoods: ["Pizza","Chicken Nuggets","Ice Cream"]
+        favoriteFoods: ["Pizza","Chicken Nuggets","Ice Cream"]
       });
     
       gregor.save((err,data) => {
